@@ -70,7 +70,7 @@ asyncio.run(main())
 | `fees` | `list_reduced` |
 | `sales` | `list_recent` |
 
-[Довідник усіх аргументів і типів](docs/api-reference.md). [OpenAPI](contracts/openapi.json). [Уточнення контракту](contracts/contract_overrides.json).
+[Довідник усіх аргументів і типів](https://github.com/ykirshov/dmarket-client/blob/master/docs/api-reference.md). [OpenAPI](https://github.com/ykirshov/dmarket-client/blob/master/contracts/openapi.json). [Уточнення контракту](https://github.com/ykirshov/dmarket-client/blob/master/contracts/contract_overrides.json).
 
 `offers.create/update/delete` — одиничні обгортки над batch. `inventory.sync(game=Game.CS2)` передає sync-ID `CSGO`. Повний sync-enum, включно з LifeBeyond, доступний як `SyncGame`; торгові listings використовують чотири значення `Game`.
 
@@ -196,4 +196,4 @@ uv run pytest -q
 
 ## Релізи
 
-Після merge у `master` GitHub Actions перевіряє пакет і автоматично публікує наступну patch-версію в PyPI. Одноразове налаштування Trusted Publishing та відновлення невдалих релізів описані в [docs/publishing.md](docs/publishing.md).
+Після merge у `master` GitHub Actions перевіряє пакет і автоматично публікує наступну patch-версію в PyPI. Одноразове налаштування Trusted Publishing та відновлення невдалих релізів описані в [docs/publishing.md](https://github.com/ykirshov/dmarket-client/blob/master/docs/publishing.md).

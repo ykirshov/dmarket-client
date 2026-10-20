@@ -4,10 +4,10 @@
 
 ## Встановлення
 
-Потрібен Python **3.14+**. Пакет поки не опубліковано в PyPI; встановіть із цієї папки або з наданого wheel:
+Потрібен Python **3.14+**. Встановлення з [PyPI](https://pypi.org/project/dmarket-client/):
 
 ```bash
-python3.14 -m pip install /absolute/path/to/dmarket-client
+python3.14 -m pip install dmarket-client
 ```
 
 Для розробки в корені пакета:
@@ -70,7 +70,7 @@ asyncio.run(main())
 | `fees` | `list_reduced` |
 | `sales` | `list_recent` |
 
-[Довідник усіх аргументів і типів](docs/api-reference.md). [OpenAPI](contracts/openapi.json). [Уточнення контракту](contracts/contract_overrides.json).
+[Довідник усіх аргументів і типів](https://github.com/ykirshov/dmarket-client/blob/master/docs/api-reference.md). [OpenAPI](https://github.com/ykirshov/dmarket-client/blob/master/contracts/openapi.json). [Уточнення контракту](https://github.com/ykirshov/dmarket-client/blob/master/contracts/contract_overrides.json).
 
 `offers.create/update/delete` — одиничні обгортки над batch. `inventory.sync(game=Game.CS2)` передає sync-ID `CSGO`. Повний sync-enum, включно з LifeBeyond, доступний як `SyncGame`; торгові listings використовують чотири значення `Game`.
 
@@ -171,7 +171,7 @@ with DMarketClient.from_env(config=config, rate_limiter=limiter) as client:
 
 ## Перевірка та межі
 
-Локальна перевірка — Python 3.14 на macOS arm64. CI налаштований для Linux, macOS і Windows; `3.14t` не заявлений як перевірений runtime. Live-акаунт не використовувався. Підпис перевірено окремим loopback HTTP-сервером над отриманими URL/body bytes.
+Пакет проходить CI на Python 3.14 для Linux, macOS і Windows; `3.14t` не заявлений як перевірений runtime. Live-акаунт не використовувався. Підпис перевірено окремим loopback HTTP-сервером над отриманими URL/body bytes.
 
 Описи P2P суперечливі: buy-схема містить `p2p`, aggregated-prices говорить про купівлю через сайт. Значення збережене, але live P2P-покупки не підтверджено. Batch-ліміти offers та ідемпотентність requestId не вигадуються. Blocked titles перевіряє назву; конкретний предмет може мати інші обмеження. Прихованого кешу списку немає.
 
@@ -196,4 +196,4 @@ uv run pytest -q
 
 ## Релізи
 
-Після merge у `master` GitHub Actions перевіряє пакет і автоматично публікує наступну patch-версію в PyPI. Одноразове налаштування Trusted Publishing та відновлення невдалих релізів описані в [docs/publishing.md](docs/publishing.md).
+Після merge у `master` GitHub Actions перевіряє пакет і автоматично публікує наступну patch-версію в PyPI. Одноразове налаштування Trusted Publishing та відновлення невдалих релізів описані в [docs/publishing.md](https://github.com/ykirshov/dmarket-client/blob/master/docs/publishing.md).

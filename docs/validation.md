@@ -21,4 +21,4 @@
 
 Джерела для відтворення: `tests/`, `tools/check_generated.py`, `pyproject.toml`, `uv.lock`. Типові команди — у README. У sandbox для loopback-тесту може знадобитися дозвіл на локальний socket.
 
-CI для Linux/macOS/Windows налаштований, але в цьому середовищі запущено лише macOS. Live-поведінка акаунта, P2P, серверні batch-ліміти offers, ідемпотентність withdrawal та free-threaded Python не підтверджені. Вони не моделюються як гарантовані можливості SDK. Віддалений статус релізів доступний у GitHub Actions і PyPI.
+GitHub Actions підтвердив lint, форматування, strict mypy, генерацію контрактів, 219 тестів і build на Linux, macOS та Windows. Збірки wheel/sdist у CI збігаються за SHA-256 з локальною відтворюваною збіркою того самого commit. Live-поведінка акаунта, P2P, серверні batch-ліміти offers, ідемпотентність withdrawal та free-threaded Python не підтверджені. Вони не моделюються як гарантовані можливості SDK. Віддалений статус релізів доступний у GitHub Actions і PyPI.

@@ -1,0 +1,15 @@
+{
+  "source_sha256": "24ddbbf72bb25a52d0b37a8f0f719a3f1a189748b72e7aed2847acb593ef5492",
+  "notes": [
+    "Source OpenAPI remains unchanged. Missing operationIds are replaced by stable SDK registry names.",
+    "Optional non-nullable wire fields use None only as an absent-field default; explicit null is rejected. model_fields_set preserves presence.",
+    "Response enums preserve unknown strings. Public request enums and query parameters validate supported choices.",
+    "Offer create/update priceCents accept either integer strings or JSON integers, as the schema descriptions explicitly allow.",
+    "High-level target create requires GameID, title, amount and price despite sparse upstream required arrays.",
+    "High-level offer update requires offer_id and price. CreateOffer.price=None omits priceCents, preserving the server default.",
+    "USD prices normalize per endpoint. DMC balance is exposed as exact MinorMoney because the contract does not define its decimal scale.",
+    "All routes use a conservative shared global 5 RPS default. Specific upstream rate categories are not inferred from URL names.",
+    "P2P buy type is preserved from the wire contract, but API purchase availability remains unverified due to contradictory upstream descriptions.",
+    "Withdrawal requestId is retained but not assumed to guarantee server idempotency. Mutations are never automatically retried."
+  ]
+}

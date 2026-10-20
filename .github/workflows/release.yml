@@ -1,0 +1,100 @@
+name: Release
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Every merged revision is checked and released; queued merges are not replaced.
+concurrency:
+  group: pypi-release
+  queue: max
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    uses: ./.github/workflows/ci.yml
+
+  prepare:
+    if: github.ref == 'refs/heads/master'
+    needs: checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      version: ${{ steps.release.outputs.version }}
+      tag: ${{ steps.release.outputs.tag }}
+      publish-needed: ${{ steps.verify.outputs.publish-needed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked --python 3.14
+      - name: Reserve immutable release version and tag
+        id: release
+        run: uv run --locked python tools/release.py prepare
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Build reproducible release distributions
+        run: |
+          echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)" >> "$GITHUB_ENV"
+      - run: uv build
+      - name: Validate artifacts and existing PyPI files
+        id: verify
+        run: uv run --locked python tools/release.py verify --version "$RELEASE_VERSION"
+        env:
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-dist
+          path: dist/
+          if-no-files-found: error
+
+  pypi:
+    needs: prepare
+    if: needs.prepare.outputs.publish-needed == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/dmarket-client
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-dist
+          path: dist/
+      - name: Publish verified distributions with PyPI Trusted Publishing
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
+
+  github-release:
+    needs: [prepare, pypi]
+    if: >-
+      always() && needs.prepare.result == 'success' &&
+      (needs.pypi.result == 'success' || needs.pypi.result == 'skipped')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-dist
+          path: dist/
+      - name: Publish GitHub Release after successful PyPI upload
+        run: |
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "GitHub Release already exists: $RELEASE_TAG"
+          else
+            gh release create "$RELEASE_TAG" dist/* --repo "$GITHUB_REPOSITORY" --verify-tag --title "$RELEASE_TAG" --generate-notes
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.prepare.outputs.tag }}

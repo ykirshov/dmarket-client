@@ -1,0 +1,140 @@
+{
+  "profile": {
+    "method": "GET",
+    "path": "/account/v1/user",
+    "safe_to_retry": true,
+    "response_schema": "representation.UserAccountResponse"
+  },
+  "balance": {
+    "method": "GET",
+    "path": "/account/v1/balance",
+    "safe_to_retry": true,
+    "response_schema": "representation.UserBalance"
+  },
+  "deposit": {
+    "method": "POST",
+    "path": "/marketplace-api/v1/deposit-assets",
+    "safe_to_retry": false,
+    "response_schema": "marketplaceDepositAssetsResponse"
+  },
+  "deposit_status": {
+    "method": "GET",
+    "path": "/marketplace-api/v1/deposit-status/{DepositID}",
+    "safe_to_retry": true,
+    "response_schema": "marketplaceGetDepositStatusResponse"
+  },
+  "blocked_titles": {
+    "method": "GET",
+    "path": "/marketplace-api/v2/deposit-blocked-titles",
+    "safe_to_retry": true,
+    "response_schema": "marketplacev2GetDepositBlockedTitlesResponse"
+  },
+  "inventory": {
+    "method": "GET",
+    "path": "/marketplace-api/v2/user/inventory",
+    "safe_to_retry": true,
+    "response_schema": "marketplacev2GetUserInventoryResponse"
+  },
+  "sync": {
+    "method": "POST",
+    "path": "/marketplace-api/v1/user-inventory/sync",
+    "safe_to_retry": false,
+    "response_schema": "marketplaceUserInventorySyncResponse"
+  },
+  "user_offers": {
+    "method": "GET",
+    "path": "/marketplace-api/v2/user/offers",
+    "safe_to_retry": true,
+    "response_schema": "marketplacev2GetUserOffersResponse"
+  },
+  "closed_offers": {
+    "method": "GET",
+    "path": "/marketplace-api/v1/user-offers/closed",
+    "safe_to_retry": true,
+    "response_schema": "marketplaceGetUserClosedOffersResponse"
+  },
+  "target_depth": {
+    "method": "GET",
+    "path": "/marketplace-api/v1/targets-by-title/{game_id}/{title}",
+    "safe_to_retry": true,
+    "response_schema": "marketplaceGetTargetsByTitleResponse"
+  },
+  "aggregated_prices": {
+    "method": "POST",
+    "path": "/marketplace-api/v1/aggregated-prices",
+    "safe_to_retry": true,
+    "response_schema": "marketplaceListAggregatedPricesResponse"
+  },
+  "user_targets": {
+    "method": "GET",
+    "path": "/marketplace-api/v2/user/targets",
+    "safe_to_retry": true,
+    "response_schema": "marketplacev2GetUserTargetsResponse"
+  },
+  "closed_targets": {
+    "method": "GET",
+    "path": "/marketplace-api/v1/user-targets/closed",
+    "safe_to_retry": true,
+    "response_schema": "marketplaceGetUserClosedTargetsResponse"
+  },
+  "create_targets": {
+    "method": "POST",
+    "path": "/marketplace-api/v1/user-targets/create",
+    "safe_to_retry": false,
+    "response_schema": "marketplaceCreateTargetsResponse"
+  },
+  "delete_targets": {
+    "method": "POST",
+    "path": "/marketplace-api/v1/user-targets/delete",
+    "safe_to_retry": false,
+    "response_schema": "marketplaceDeleteTargetsResponse"
+  },
+  "batch_create": {
+    "method": "POST",
+    "path": "/marketplace-api/v2/offers:batchCreate",
+    "safe_to_retry": false,
+    "response_schema": "marketplacev2BatchCreateOffersResponse"
+  },
+  "batch_update": {
+    "method": "POST",
+    "path": "/marketplace-api/v2/offers:batchUpdate",
+    "safe_to_retry": false,
+    "response_schema": "marketplacev2BatchUpdateOffersResponse"
+  },
+  "batch_delete": {
+    "method": "POST",
+    "path": "/marketplace-api/v2/offers:batchDelete",
+    "safe_to_retry": false,
+    "response_schema": "marketplacev2BatchDeleteOffersResponse"
+  },
+  "market_offers": {
+    "method": "GET",
+    "path": "/marketplace-api/v2/offers",
+    "safe_to_retry": true,
+    "response_schema": "marketplacev2GetMarketplaceOffersResponse"
+  },
+  "buy": {
+    "method": "PATCH",
+    "path": "/exchange/v1/offers-buy",
+    "safe_to_retry": false,
+    "response_schema": "entity.OfferBuyResponse"
+  },
+  "withdraw": {
+    "method": "POST",
+    "path": "/exchange/v1/withdraw-assets",
+    "safe_to_retry": false,
+    "response_schema": "entity.WithdrawResponse"
+  },
+  "fees": {
+    "method": "GET",
+    "path": "/exchange/v1/customized-fees",
+    "safe_to_retry": true,
+    "response_schema": "entity.ListFeeResponse"
+  },
+  "last_sales": {
+    "method": "GET",
+    "path": "/trade-aggregator/v1/last-sales",
+    "safe_to_retry": true,
+    "response_schema": "tradeGetLastSalesResponse"
+  }
+}

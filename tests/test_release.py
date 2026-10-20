@@ -50,3 +50,24 @@ def test_changed_or_unexpected_pypi_artifact_is_rejected():
 def test_only_stable_versions_are_accepted(value):
     with pytest.raises(ValueError):
         release.version_tuple(value)
+
+
+def test_distribution_metadata_and_uv_gitignore(tmp_path):
+    import io
+    import tarfile
+    import zipfile
+
+    metadata = b"Name: dmarket-client\nVersion: 0.1.0\n\n"
+    with zipfile.ZipFile(tmp_path / "dmarket_client-0.1.0-py3-none-any.whl", "w") as archive:
+        archive.writestr("dmarket_client-0.1.0.dist-info/METADATA", metadata)
+    with tarfile.open(tmp_path / "dmarket_client-0.1.0.tar.gz", "w:gz") as archive:
+        member = tarfile.TarInfo("dmarket_client-0.1.0/PKG-INFO")
+        member.size = len(metadata)
+        archive.addfile(member, io.BytesIO(metadata))
+    (tmp_path / ".gitignore").write_text("*\n")
+    assert len(release.distribution_hashes(tmp_path, "0.1.0")) == 2
+    with pytest.raises(ValueError, match="name/version"):
+        release.distribution_hashes(tmp_path, "0.1.1")
+    (tmp_path / "unexpected.txt").write_text("not a distribution")
+    with pytest.raises(ValueError, match="exactly"):
+        release.distribution_hashes(tmp_path, "0.1.0")

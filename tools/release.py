@@ -109,7 +109,7 @@ def prepare(*, dry_run: bool = False) -> None:
 
 def distribution_hashes(directory: Path, version: str) -> dict[str, str]:
     version_tuple(version)
-    files = sorted(directory.iterdir())
+    files = sorted(path for path in directory.iterdir() if path.name != ".gitignore")
     wheels = [path for path in files if path.suffix == ".whl"]
     sources = [path for path in files if path.name.endswith(".tar.gz")]
     if len(files) != 2 or len(wheels) != 1 or len(sources) != 1:

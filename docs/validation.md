@@ -4,7 +4,7 @@
 
 | Перевірка | Результат |
 | --- | --- |
-| Офлайн pytest suite | **218 passed** |
+| Офлайн pytest suite | **219 passed** |
 | Strict mypy для SDK | Усі 24 Python-модулі без помилок |
 | Ruff lint і форматування | Без помилок |
 | Генеровані файли | Wire models, endpoints, async resources відповідають джерелам |
